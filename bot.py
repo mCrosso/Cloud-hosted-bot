@@ -1,4 +1,5 @@
 import discord
+import os
 from discord.ext import commands
 import random
 
@@ -49,4 +50,4 @@ async def _purge(ctx, amount=15):
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 
-client.run('NzIyNTgyNTYzNDM2MTAxNjgz.XulTZQ.mgLKd6dq9mJ6jMAgdUG5vYgiVC8')
+client.run(os.environ['Discord_Token'])
