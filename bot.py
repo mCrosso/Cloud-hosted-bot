@@ -2,6 +2,7 @@ import discord
 import os
 from discord.ext import commands
 import random
+import asyncio
 
 
 client = commands.Bot(command_prefix='.')
@@ -47,6 +48,28 @@ async def _purge(ctx, amount=15):
         return
     await ctx.message.delete(delay=None)
     await ctx.channel.purge(limit=amount)
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+#Avatar command
+@client.command(aliases=['av', 'avatar', 'pfp'])
+async def _av(ctx, user: discord.User = None):
+    user = ctx.author if not user else user
+    embed = discord.Embed(
+        title=user.name,
+        description='Avatar,',
+        color=0xecce8b)
+    pfp = user.avatar_url
+    embed.set_image(url=pfp)
+    await ctx.send(embed=embed)
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Id command
+@client.command()
+async def id(ctx, user: discord.User):
+    await ctx.send(user.id)
+#---------------------------------------------------------------------------------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 
