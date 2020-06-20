@@ -50,4 +50,4 @@ async def _purge(ctx, amount=15):
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 
-client.run(os.environ['Discord_Token'])
+client.run('NzIyNTgyNTYzNDM2MTAxNjgz.XulTZQ.mgLKd6dq9mJ6jMAgdUG5vYgiVC8')
