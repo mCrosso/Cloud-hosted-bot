@@ -1,9 +1,10 @@
 import discord
 import os
 from discord.ext import commands
+from discord.ext.commands import has_permissions, MissingPermissions, CheckFailure, has_role
 import random
 import asyncio
-
+from random import randint
 
 client = commands.Bot(command_prefix='.')
 @client.event
@@ -51,7 +52,6 @@ async def _purge(ctx, amount=15):
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-
 #Avatar command
 @client.command(aliases=['av', 'avatar', 'pfp'])
 async def _av(ctx, user: discord.User = None):
@@ -65,12 +65,32 @@ async def _av(ctx, user: discord.User = None):
     await ctx.send(embed=embed)
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 
+@client.command(aliases=['pp', 'ppsize'])
+async def _ppsize(ctx, user: discord.User = None):
+    user = ctx.author if not user else user
+    colors = [0xFF0000, 0x000000, 0x0000FF, 0x008000, 0xFFFF00, 0xFFA500, 0x800080]
+    randomchoice = random.choice(colors)
+    value = random.randint(0, 15)
+    embed = discord.Embed(
+        title=user.name+"'s pp",
+        description=('8'+ ('='*value)+ 'D'),
+        color=randomchoice)
+    await ctx.send(embed=embed)
 #Id command
 @client.command()
 async def id(ctx, user: discord.User):
-    await ctx.send(user.id)
-#---------------------------------------------------------------------------------------------------------------------------------------------------
+    await ctx.send(user.name)
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+@client.command()
+async def bigpp(ctx):
+    user = ctx.author
 
-#---------------------------------------------------------------------------------------------------------------------------------------------------
+    if user.id == 374321158700531712:
+        await ctx.send(f'{user.name} has a small pp.')
+    else:
+        await ctx.send(f'{user.name} has a big pp.')
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------
 
 client.run(os.environ['Discord_Token'])
