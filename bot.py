@@ -1,9 +1,10 @@
 import discord
 import os
 from discord.ext import commands
-from discord.ext.commands import has_permissions, MissingPermissions, CheckFailure, has_role
+from discord.ext.commands import has_permissions, MissingPermissions, CheckFailure, has_role, command
 import random
 from random import randint
+import datetime
 
 client = commands.Bot(command_prefix='.')
 @client.event
@@ -90,5 +91,20 @@ async def bigpp(ctx):
         await ctx.send(f'{user.name} has a big pp.')
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+@client.event
+async def on_message_delete(message):
+    global deletedmessage
+    deletedmessage = message.content
 
+@client.command()
+async def snipe(ctx):
+    colors = [0xFF0000, 0x000000, 0x0000FF, 0x008000, 0xFFFF00, 0xFFA500, 0x800080]
+    randomchoice = random.choice(colors)
+    user = ctx.author
+    embed = discord.Embed(
+        title=user.name,
+        description=(deletedmessage),
+        timestamp=(datetime.datetime.utcnow()),
+        color=randomchoice)
+    await ctx.send(embed=embed)
 client.run(os.environ['Discord_Token'])
