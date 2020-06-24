@@ -3,7 +3,6 @@ import os
 from discord.ext import commands
 from discord.ext.commands import has_permissions, MissingPermissions, CheckFailure, has_role
 import random
-import asyncio
 from random import randint
 
 client = commands.Bot(command_prefix='.')
