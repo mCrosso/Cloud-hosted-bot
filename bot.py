@@ -222,4 +222,4 @@ async def help(ctx):
     embed.add_field(name='id', value="Returns user's id")
     embed.add_field(name='snipe', value='Sends the most recent deleted message.')
     await ctx.send(embed=embed)
-client.run('NzIyNTgyNTYzNDM2MTAxNjgz.XulTZQ.mgLKd6dq9mJ6jMAgdUG5vYgiVC8')
+client.run(os.environ['Discord_Token'])
