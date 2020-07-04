@@ -12,7 +12,7 @@ client.remove_command('help')
 @client.event
 async def on_ready():
     print('Bot is running.')
-
+#-------------------------------------------------------------------------------------------------------------------
 @client.command()
 async def createacc(ctx):
     name = ctx.author
@@ -26,14 +26,22 @@ async def createacc(ctx):
     cursor.close()
     db.close()
     await ctx.send('Account made!')
+@createacc.error
+async def on_error(ctx, error):
+    await ctx.send('You already have an account.')
 @client.command()
 async def bal(ctx):
+    user = ctx.author
     db = sqlite3.connect('main.sqlite')
     cursor = db.cursor()
     cursor.execute(f"SELECT balance FROM main WHERE username = '{ctx.author.id}'")
     result = cursor.fetchone()
-    await ctx.send(f"{str(result[0])}")
-
+    amount = str(result[0])
+    embed = discord.Embed(
+        description=f'You have {amount} coins.',
+        color=0x000000)
+    embed.set_author(name=f"{user.name}'s balance", icon_url=ctx.author.avatar_url)
+    await ctx.send(embed=embed)
 @client.command()
 async def work(ctx):
     db = sqlite3.connect('main.sqlite')
@@ -44,6 +52,8 @@ async def work(ctx):
     cursor.close()
     db.close()
     await ctx.send('You worked for an hour and got 5 coins!')
+
+#-----------------------------------------------------------------------------------------------------------------------
 # Ping command
 @client.command()
 async def ping(ctx):
