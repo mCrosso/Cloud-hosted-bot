@@ -307,4 +307,4 @@ async def testingrole2(ctx):
 
 
 
-client.run('NzIyNTgyNTYzNDM2MTAxNjgz.XulTZQ.mgLKd6dq9mJ6jMAgdUG5vYgiVC8')
+client.run(os.environ['Discord_Token'])
